@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ITCMD Brasil — Arrecadação 2025</title>
+<style>
+:root {
+  --text:#16253f;
+  --muted:#637083;
+  --grid:#dfe5ec;
+  --blue:#2f80b9;
+  --blue-dark:#1f6696;
+  --bar:#5b6f82;
+  --bar-hover:#354a5f;
+  --orange:#b45309;
+  --orange-dark:#92400e;
+  --panel:#f4f7fa;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--text);font-family:Arial,Helvetica,sans-serif}
+.wrap{max-width:1500px;margin:0 auto;padding:24px 28px 20px}
+.topbar{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.back{display:inline-block;text-decoration:none;color:#fff;background:#5b6f82;padding:10px 15px;border-radius:8px;font-weight:700;font-size:14px}
+.site-label{font-size:12px;color:var(--muted)}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:clamp(30px,2.7vw,44px);margin:16px 0 5px;text-align:center}
+.lead{text-align:center;color:var(--muted);font-size:14px;margin-bottom:24px}
+.section{border-top:1px solid #e5e7eb;padding-top:26px;margin-top:24px}
+.section:first-of-type{border-top:none;padding-top:0}
+.section h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(26px,2.2vw,36px);margin:0 0 5px;text-align:center}
+.section .sub{text-align:center;color:var(--muted);font-size:14px;margin-bottom:12px}
+.chart-wrap{overflow-x:auto;position:relative}
+svg{display:block;width:100%;min-width:1080px;height:auto}
+.legend{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-top:7px}
+.legend i{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-2px;border-radius:2px}
+.hint{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
+.tooltip{position:fixed;opacity:0;pointer-events:none;z-index:50;background:#111827;color:#fff;padding:10px 12px;border-radius:8px;box-shadow:0 8px 24px #0003;font-size:13px;line-height:1.42;transform:translate(12px,-50%);white-space:nowrap}
+.tooltip strong{display:block;font-size:14px;margin-bottom:3px}
+.pibtip{position:fixed;display:none;z-index:60;max-width:440px;background:var(--panel);border:1px solid #d9e0e7;border-radius:12px;padding:14px 16px;box-shadow:0 10px 28px #0002;font-size:13px;line-height:1.45}
+.pibtip p{margin:5px 0}
+.footer{text-align:center;color:var(--muted);font-size:11px;margin-top:28px;line-height:1.45}
+.footer strong{color:var(--text)}
+@media(max-width:700px){
+  .wrap{padding:16px 10px}
+  .back{width:100%;text-align:center}
+  h1{font-size:28px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a class="back" href="index.html">← Voltar ao mapa interativo</a>
+    <div class="site-label">ITCMD Brasil · Arrecadação 2025</div>
+  </div>
+
+  <h1>Arrecadação do ITCMD/ITCD — 2025</h1>
+  <div class="lead">Dois recortes complementares: valor arrecadado e peso do ITCMD/ITCD na receita tributária estadual.</div>
+
+  <section class="section">
+    <h2>Participação do ITCMD/ITCD na receita tributária estadual — 2025</h2>
+    <div class="sub">26 UFs com dados comparáveis consolidados · RR sem dado comparável na planilha</div>
+    <div class="chart-wrap">
+      <svg id="chartPct" viewBox="0 0 1500 930" aria-label="Participação do ITCMD/ITCD na receita tributária estadual por UF"></svg>
+    </div>
+    <div class="hint">Passe o mouse sobre uma barra para ver os valores. Passe o cursor sobre a linha “Brasil (26 UFs)” para ver a relação entre ITCMD/ITCD e PIB.</div>
+  </section>
+
+  <section class="section">
+    <h2>ITCMD/ITCD: valor arrecadado e importância relativa por UF — 2025</h2>
+    <div class="sub">UFs ordenadas pela arrecadação absoluta de ITCMD/ITCD</div>
+    <div class="chart-wrap">
+      <svg id="chartAbs" viewBox="0 0 1500 760" aria-label="Valor absoluto arrecadado de ITCMD/ITCD e importância relativa por UF"></svg>
+    </div>
+    <div class="legend">
+      <span><i style="background:#5b6f82"></i>Valor absoluto arrecadado (R$ bilhões)</span>
+      <span><i style="background:#b45309;height:3px;vertical-align:3px"></i>ITCMD/ITCD como % da receita tributária</span>
+    </div>
+    <div class="hint">Passe o mouse sobre uma coluna ou sobre um ponto da linha para visualizar os valores.</div>
+  </section>
+
+  <div class="footer">
+    <strong>© 2026 Rodolpho Moraes · ITCMD Brasil — Arrecadação - 2025</strong><br>
+    Elaboração e organização dos dados: Rodolpho Moraes.
+  </div>
+</div>
+
+<div id="tip" class="tooltip"></div>
+<div id="pibTip" class="pibtip">
+  <p><strong>Arrecadação total de ITCMD/ITCD:</strong> R$ 19,733 bilhões</p>
+  <p><strong>PIB brasileiro informado:</strong> R$ 12,7 trilhões</p>
+  <p><strong>ITCMD/ITCD ÷ PIB:</strong> 0,155% — arredondando, <strong>0,16%</strong>.</p>
+</div>
+
+<script>
+const dataAbs = [{"estado": "São Paulo", "uf": "SP", "itcmd": 7356323453.8, "receita": 308817766033.1, "pct": 2.3820920500446623, "itcmd_bi": 7.3563234538}, {"estado": "Minas Gerais", "uf": "MG", "itcmd": 2258916942.65, "receita": 116530782707.02, "pct": 1.9384722990570966, "itcmd_bi": 2.25891694265}, {"estado": "Rio de Janeiro", "uf": "RJ", "itcmd": 1876414681.0, "receita": 82957221212.0, "pct": 2.26190638209151, "itcmd_bi": 1.876414681}, {"estado": "Rio Grande do Sul", "uf": "RS", "itcmd": 1776600000.0, "receita": 68791100000.0, "pct": 2.5826015283953883, "itcmd_bi": 1.7766}, {"estado": "Paraná", "uf": "PR", "itcmd": 1619174115.81, "receita": 68015407147.73, "pct": 2.38059901970908, "itcmd_bi": 1.61917411581}, {"estado": "Santa Catarina", "uf": "SC", "itcmd": 867230302.85, "receita": 35326010339.97, "pct": 2.4549341816524435, "itcmd_bi": 0.86723030285}, {"estado": "Mato Grosso do Sul", "uf": "MS", "itcmd": 762386732.25, "receita": 22066498618.32, "pct": 3.454951079629158, "itcmd_bi": 0.76238673225}, {"estado": "Goiás", "uf": "GO", "itcmd": 727190000.0, "receita": 27213780000.0, "pct": 2.6721388943395588, "itcmd_bi": 0.72719}, {"estado": "Distrito Federal", "uf": "DF", "itcmd": 396938000.0, "receita": 27027498000.0, "pct": 1.4686450073921011, "itcmd_bi": 0.396938}, {"estado": "Bahia", "uf": "BA", "itcmd": 388155590.72, "receita": 52595255909.49, "pct": 0.7380049474195322, "itcmd_bi": 0.38815559072000005}, {"estado": "Mato Grosso", "uf": "MT", "itcmd": 331790915.47, "receita": 32235528024.73, "pct": 1.0292709187684512, "itcmd_bi": 0.33179091547}, {"estado": "Ceará", "uf": "CE", "itcmd": 247312036.59, "receita": 27942394650.32, "pct": 0.8850781748842265, "itcmd_bi": 0.24731203659}, {"estado": "Espírito Santo", "uf": "ES", "itcmd": 239520015.94, "receita": 27118148236.19, "pct": 0.883246207867369, "itcmd_bi": 0.23952001594}, {"estado": "Pernambuco", "uf": "PE", "itcmd": 207501000.0, "receita": 34947989000.0, "pct": 0.5937423180486866, "itcmd_bi": 0.207501}, {"estado": "Tocantins", "uf": "TO", "itcmd": 105545182.31, "receita": 8812725092.17, "pct": 1.1976452369287638, "itcmd_bi": 0.10554518231}, {"estado": "Maranhão", "uf": "MA", "itcmd": 99256893.01, "receita": 19446546553.2, "pct": 0.510408841685399, "itcmd_bi": 0.09925689301}, {"estado": "Alagoas", "uf": "AL", "itcmd": 72545891.56, "receita": 11316428186.66, "pct": 0.6410670430933176, "itcmd_bi": 0.07254589156}, {"estado": "Paraíba", "uf": "PB", "itcmd": 70577000.0, "receita": 13553783000.0, "pct": 0.5207180902925773, "itcmd_bi": 0.070577}, {"estado": "Sergipe", "uf": "SE", "itcmd": 70425210.54, "receita": 8351922713.08, "pct": 0.8432215306507402, "itcmd_bi": 0.07042521054}, {"estado": "Pará", "uf": "PA", "itcmd": 68181056.0, "receita": 22455174105.0, "pct": 0.303631829711881, "itcmd_bi": 0.068181056}, {"estado": "Rio Grande do Norte", "uf": "RN", "itcmd": 46086165.55, "receita": 12637462691.37, "pct": 0.3646789444646336, "itcmd_bi": 0.046086165549999995}, {"estado": "Rondônia", "uf": "RO", "itcmd": 45702757.11, "receita": 10181237794.55, "pct": 0.4488919523563688, "itcmd_bi": 0.04570275711}, {"estado": "Amazonas", "uf": "AM", "itcmd": 45519482.26, "receita": 17337861555.87, "pct": 0.26254380976175623, "itcmd_bi": 0.04551948226}, {"estado": "Piauí", "uf": "PI", "itcmd": 40099024.09, "receita": 10872710839.04, "pct": 0.3688042907019913, "itcmd_bi": 0.040099024090000004}, {"estado": "Acre", "uf": "AC", "itcmd": 9550865.61, "receita": 3356381239.02, "pct": 0.2845584255735106, "itcmd_bi": 0.009550865609999999}, {"estado": "Amapá", "uf": "AP", "itcmd": 3675193.0, "receita": 2744593891.0, "pct": 0.13390662320030647, "itcmd_bi": 0.003675193}];
+const dataPct = [{"estado": "Mato Grosso do Sul", "uf": "MS", "itcmd": 762386732.25, "receita": 22066498618.32, "pct": 3.454951079629158}, {"estado": "Goiás", "uf": "GO", "itcmd": 727190000.0, "receita": 27213780000.0, "pct": 2.6721388943395588}, {"estado": "Rio Grande do Sul", "uf": "RS", "itcmd": 1776600000.0, "receita": 68791100000.0, "pct": 2.5826015283953883}, {"estado": "Santa Catarina", "uf": "SC", "itcmd": 867230302.85, "receita": 35326010339.97, "pct": 2.4549341816524435}, {"estado": "São Paulo", "uf": "SP", "itcmd": 7356323453.8, "receita": 308817766033.1, "pct": 2.3820920500446623}, {"estado": "Paraná", "uf": "PR", "itcmd": 1619174115.81, "receita": 68015407147.73, "pct": 2.38059901970908}, {"estado": "Rio de Janeiro", "uf": "RJ", "itcmd": 1876414681.0, "receita": 82957221212.0, "pct": 2.26190638209151}, {"estado": "Minas Gerais", "uf": "MG", "itcmd": 2258916942.65, "receita": 116530782707.02, "pct": 1.9384722990570966}, {"estado": "Distrito Federal", "uf": "DF", "itcmd": 396938000.0, "receita": 27027498000.0, "pct": 1.4686450073921011}, {"estado": "Tocantins", "uf": "TO", "itcmd": 105545182.31, "receita": 8812725092.17, "pct": 1.1976452369287638}, {"estado": "Mato Grosso", "uf": "MT", "itcmd": 331790915.47, "receita": 32235528024.73, "pct": 1.0292709187684512}, {"estado": "Ceará", "uf": "CE", "itcmd": 247312036.59, "receita": 27942394650.32, "pct": 0.8850781748842265}, {"estado": "Espírito Santo", "uf": "ES", "itcmd": 239520015.94, "receita": 27118148236.19, "pct": 0.883246207867369}, {"estado": "Sergipe", "uf": "SE", "itcmd": 70425210.54, "receita": 8351922713.08, "pct": 0.8432215306507402}, {"estado": "Bahia", "uf": "BA", "itcmd": 388155590.72, "receita": 52595255909.49, "pct": 0.7380049474195322}, {"estado": "Alagoas", "uf": "AL", "itcmd": 72545891.56, "receita": 11316428186.66, "pct": 0.6410670430933176}, {"estado": "Pernambuco", "uf": "PE", "itcmd": 207501000.0, "receita": 34947989000.0, "pct": 0.5937423180486866}, {"estado": "Paraíba", "uf": "PB", "itcmd": 70577000.0, "receita": 13553783000.0, "pct": 0.5207180902925773}, {"estado": "Maranhão", "uf": "MA", "itcmd": 99256893.01, "receita": 19446546553.2, "pct": 0.510408841685399}, {"estado": "Rondônia", "uf": "RO", "itcmd": 45702757.11, "receita": 10181237794.55, "pct": 0.4488919523563688}, {"estado": "Piauí", "uf": "PI", "itcmd": 40099024.09, "receita": 10872710839.04, "pct": 0.3688042907019913}, {"estado": "Rio Grande do Norte", "uf": "RN", "itcmd": 46086165.55, "receita": 12637462691.37, "pct": 0.3646789444646336}, {"estado": "Pará", "uf": "PA", "itcmd": 68181056.0, "receita": 22455174105.0, "pct": 0.303631829711881}, {"estado": "Acre", "uf": "AC", "itcmd": 9550865.61, "receita": 3356381239.02, "pct": 0.2845584255735106}, {"estado": "Amazonas", "uf": "AM", "itcmd": 45519482.26, "receita": 17337861555.87, "pct": 0.26254380976175623}, {"estado": "Amapá", "uf": "AP", "itcmd": 3675193.0, "receita": 2744593891.0, "pct": 0.13390662320030647}];
+const national = 1.8396101149;
+
+const tip = document.getElementById('tip');
+const pibTip = document.getElementById('pibTip');
+
+const brl = v => new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(v);
+const pct = v => new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}).format(v)+'%';
+const bi = v => new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}).format(v);
+
+function mk(svg,name,attrs={},text=''){
+  const n=document.createElementNS('http://www.w3.org/2000/svg',name);
+  for(const [k,v] of Object.entries(attrs)) n.setAttribute(k,v);
+  if(text) n.textContent=text;
+  svg.appendChild(n);
+  return n;
+}
+function showTip(ev,d){
+  tip.innerHTML=`<strong>${d.estado} (${d.uf})</strong>
+    ITCMD/ITCD: <b>${brl(d.itcmd)}</b><br>
+    Receita tributária: ${brl(d.receita)}<br>
+    Participação: <b>${pct(d.pct)}</b>`;
+  tip.style.left=ev.clientX+'px';
+  tip.style.top=ev.clientY+'px';
+  tip.style.opacity='1';
+}
+function hideTip(){ tip.style.opacity='0'; }
+
+// CHART 1 — valor absoluto + importância relativa
+(function(){
+  const svg=document.getElementById('chartAbs');
+  const W=1500,H=760,m={top:55,right:95,bottom:95,left:90},iw=W-m.left-m.right,ih=H-m.top-m.bottom;
+  const maxA=Math.ceil(Math.max(...dataAbs.map(d=>d.itcmd_bi))*1.15*2)/2;
+  const maxP=Math.ceil(Math.max(...dataAbs.map(d=>d.pct))*1.15*2)/2;
+  const step=iw/dataAbs.length,bw=Math.min(34,step*.62);
+  const x=i=>m.left+step*i+step/2, yA=v=>m.top+ih-(v/maxA)*ih, yP=v=>m.top+ih-(v/maxP)*ih;
+
+  mk(svg,'rect',{x:0,y:0,width:W,height:H,fill:'#fff'});
+  for(let t=0;t<=5;t++){
+    const va=maxA*t/5, y=yA(va);
+    mk(svg,'line',{x1:m.left,y1:y,x2:W-m.right,y2:y,stroke:'#e5e7eb'});
+    mk(svg,'text',{x:m.left-12,y:y+4,'text-anchor':'end',fill:'#6b7280','font-size':12},new Intl.NumberFormat('pt-BR',{maximumFractionDigits:1}).format(va));
+    const vp=maxP*t/5;
+    mk(svg,'text',{x:W-m.right+12,y:yP(vp)+4,fill:'#6b7280','font-size':12},new Intl.NumberFormat('pt-BR',{maximumFractionDigits:1}).format(vp)+'%');
+  }
+  mk(svg,'text',{x:24,y:m.top+ih/2,transform:`rotate(-90 24 ${m.top+ih/2})`,'text-anchor':'middle',fill:'#374151','font-size':14},'ITCMD/ITCD arrecadado (R$ bilhões)');
+  mk(svg,'text',{x:W-18,y:m.top+ih/2,transform:`rotate(90 ${W-18} ${m.top+ih/2})`,'text-anchor':'middle',fill:'#374151','font-size':14},'ITCMD/ITCD como % da receita tributária');
+
+  dataAbs.forEach((d,i)=>{
+    const cx=x(i), yy=yA(d.itcmd_bi), h=m.top+ih-yy;
+    const r=mk(svg,'rect',{x:cx-bw/2,y:yy,width:bw,height:h,rx:3,fill:'#5b6f82',cursor:'pointer'});
+    r.addEventListener('mousemove',e=>showTip(e,d));
+    r.addEventListener('mouseenter',()=>r.setAttribute('fill','#354a5f'));
+    r.addEventListener('mouseleave',()=>{r.setAttribute('fill','#5b6f82');hideTip();});
+    if(d.itcmd_bi>=0.7) mk(svg,'text',{x:cx,y:yy-8,'text-anchor':'middle',fill:'#374151','font-size':11,'font-weight':600},bi(d.itcmd_bi));
+    mk(svg,'text',{x:cx,y:H-m.bottom+28,'text-anchor':'middle',fill:'#374151','font-size':12},d.uf);
+  });
+
+  const pts=dataAbs.map((d,i)=>[x(i),yP(d.pct)]);
+  mk(svg,'path',{d:pts.map((p,i)=>(i?'L':'M')+p[0]+' '+p[1]).join(' '),fill:'none',stroke:'#b45309','stroke-width':3,'stroke-linejoin':'round','stroke-linecap':'round'});
+  dataAbs.forEach((d,i)=>{
+    const c=mk(svg,'circle',{cx:x(i),cy:yP(d.pct),r:5,fill:'#92400e',stroke:'#fff','stroke-width':2,cursor:'pointer'});
+    c.addEventListener('mousemove',e=>showTip(e,d));
+    c.addEventListener('mouseleave',hideTip);
+  });
+  mk(svg,'line',{x1:m.left,y1:m.top+ih,x2:W-m.right,y2:m.top+ih,stroke:'#9ca3af'});
+})();
+
+// CHART 2 — participação por UF + linha nacional
+(function(){
+  const svg=document.getElementById('chartPct');
+  const W=1500,H=930,m={top:35,right:110,bottom:65,left:95},iw=W-m.left-m.right,ih=H-m.top-m.bottom;
+  const maxX=3.65,row=ih/dataPct.length,barH=Math.min(24,row*.72);
+  const x=v=>m.left+(v/maxX)*iw, y=i=>m.top+i*row+row/2;
+
+  mk(svg,'rect',{x:0,y:0,width:W,height:H,fill:'#fff'});
+  for(let v=0;v<=3.5001;v+=0.5){
+    const xx=x(v);
+    mk(svg,'line',{x1:xx,y1:m.top-5,x2:xx,y2:H-m.bottom+8,stroke:'#dfe5ec'});
+    mk(svg,'text',{x:xx,y:H-m.bottom+34,'text-anchor':'middle',fill:'#5f6b7a','font-size':13},v.toFixed(1));
+  }
+  mk(svg,'text',{x:m.left+iw/2,y:H-10,'text-anchor':'middle',fill:'#293548','font-size':15},'ITCMD/ITCD como % da receita tributária');
+
+  dataPct.forEach((d,i)=>{
+    const yy=y(i), w=x(d.pct)-m.left;
+    mk(svg,'text',{x:m.left-12,y:yy+5,'text-anchor':'end',fill:'#1f2937','font-size':14},d.uf);
+    const r=mk(svg,'rect',{x:m.left,y:yy-barH/2,width:w,height:barH,rx:2,fill:'#2f80b9',cursor:'pointer'});
+    mk(svg,'text',{x:x(d.pct)+14,y:yy+5,fill:'#111827','font-size':13},d.pct.toFixed(2)+'%');
+    r.addEventListener('mousemove',e=>showTip(e,d));
+    r.addEventListener('mouseenter',()=>r.setAttribute('fill','#1f6696'));
+    r.addEventListener('mouseleave',()=>{r.setAttribute('fill','#2f80b9');hideTip();});
+  });
+
+  const nx=x(national);
+  const hit=mk(svg,'rect',{x:nx-13,y:m.top-6,width:26,height:ih+15,fill:'transparent',cursor:'pointer'});
+  mk(svg,'line',{x1:nx,y1:m.top-6,x2:nx,y2:H-m.bottom+8,stroke:'#2f80b9','stroke-width':3,'stroke-dasharray':'9 6','pointer-events':'none'});
+  mk(svg,'text',{x:nx+34,y:m.top+ih*.70,fill:'#111827','font-size':16,'font-weight':'700',
+    transform:`rotate(-90 ${nx+34} ${m.top+ih*.70})`,'pointer-events':'none'},`Brasil (26 UFs): ${national.toFixed(2)}%`);
+
+  function showPIB(ev){
+    pibTip.style.display='block';
+    const maxLeft=Math.max(10,window.innerWidth-460);
+    pibTip.style.left=Math.min(ev.clientX+18,maxLeft)+'px';
+    pibTip.style.top=Math.max(ev.clientY-75,10)+'px';
+  }
+  function hidePIB(){pibTip.style.display='none';}
+  hit.addEventListener('mouseenter',ev=>{hit.setAttribute('fill','rgba(47,128,185,.06)');showPIB(ev);});
+  hit.addEventListener('mousemove',showPIB);
+  hit.addEventListener('mouseleave',()=>{hit.setAttribute('fill','transparent');hidePIB();});
+})();
+</script>
+</body>
+</html>
