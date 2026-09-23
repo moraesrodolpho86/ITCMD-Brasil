@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ITCMD/ITCD 2025 — Valor absoluto e importância relativa</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#fff;color:#1f2937}
+.wrap{max-width:1500px;margin:auto;padding:28px}
+h1{text-align:center;font-size:30px;margin:0 0 6px}
+.sub{text-align:center;color:#6b7280;font-size:14px;margin-bottom:18px}
+.chartbox{overflow-x:auto;position:relative}
+svg{width:100%;min-width:1100px;height:auto;display:block}
+.tip{position:fixed;opacity:0;pointer-events:none;background:#111827;color:#fff;padding:10px 12px;border-radius:8px;
+font-size:13px;line-height:1.45;box-shadow:0 8px 24px #0003;transform:translate(-50%,calc(-100% - 12px));z-index:5}
+.tip strong{display:block;font-size:14px;margin-bottom:4px}
+.legend{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;color:#6b7280;font-size:13px;margin-top:6px}
+.legend i{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-2px;border-radius:2px}
+.note,.source{text-align:center;color:#6b7280;font-size:12px;margin-top:10px}
+.source{font-size:11px;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>ITCMD/ITCD: valor arrecadado e importância relativa por UF — 2025</h1>
+<div class="sub">UFs ordenadas pela arrecadação absoluta de ITCMD/ITCD</div>
+<div class="chartbox"><svg id="g" viewBox="0 0 1500 760"></svg></div>
+<div class="legend">
+<span><i style="background:#5b6f82"></i>Valor absoluto arrecadado (R$ bilhões)</span>
+<span><i style="background:#b45309;height:3px;vertical-align:3px"></i>ITCMD/ITCD como % da receita tributária</span>
+</div>
+<div class="note">Passe o mouse sobre uma coluna ou sobre um ponto da linha para visualizar os valores.</div>
+<div class="source">Elaboração do grupo para apresentação, com base na planilha consolidada de 2025.</div>
+</div>
+<div id="tip" class="tip"></div>
+<script>
+const data=[{"estado": "São Paulo", "uf": "SP", "itcmd": 7356323453.8, "receita": 308817766033.1, "pct": 2.3820920500446623, "itcmd_bi": 7.3563234538}, {"estado": "Minas Gerais", "uf": "MG", "itcmd": 2258916942.65, "receita": 116530782707.02, "pct": 1.9384722990570966, "itcmd_bi": 2.25891694265}, {"estado": "Rio de Janeiro", "uf": "RJ", "itcmd": 1876414681.0, "receita": 82957221212.0, "pct": 2.26190638209151, "itcmd_bi": 1.876414681}, {"estado": "Rio Grande do Sul", "uf": "RS", "itcmd": 1776600000.0, "receita": 68791100000.0, "pct": 2.5826015283953883, "itcmd_bi": 1.7766}, {"estado": "Paraná", "uf": "PR", "itcmd": 1619174115.81, "receita": 68015407147.73, "pct": 2.38059901970908, "itcmd_bi": 1.61917411581}, {"estado": "Santa Catarina", "uf": "SC", "itcmd": 867230302.85, "receita": 35326010339.97, "pct": 2.4549341816524435, "itcmd_bi": 0.86723030285}, {"estado": "Mato Grosso do Sul", "uf": "MS", "itcmd": 762386732.25, "receita": 22066498618.32, "pct": 3.454951079629158, "itcmd_bi": 0.76238673225}, {"estado": "Goiás", "uf": "GO", "itcmd": 727190000.0, "receita": 27213780000.0, "pct": 2.6721388943395588, "itcmd_bi": 0.72719}, {"estado": "Distrito Federal", "uf": "DF", "itcmd": 396938000.0, "receita": 27027498000.0, "pct": 1.4686450073921011, "itcmd_bi": 0.396938}, {"estado": "Bahia", "uf": "BA", "itcmd": 388155590.72, "receita": 52595255909.49, "pct": 0.7380049474195322, "itcmd_bi": 0.38815559072000005}, {"estado": "Mato Grosso", "uf": "MT", "itcmd": 331790915.47, "receita": 32235528024.73, "pct": 1.0292709187684512, "itcmd_bi": 0.33179091547}, {"estado": "Ceará", "uf": "CE", "itcmd": 247312036.59, "receita": 27942394650.32, "pct": 0.8850781748842265, "itcmd_bi": 0.24731203659}, {"estado": "Espírito Santo", "uf": "ES", "itcmd": 239520015.94, "receita": 27118148236.19, "pct": 0.883246207867369, "itcmd_bi": 0.23952001594}, {"estado": "Pernambuco", "uf": "PE", "itcmd": 207501000.0, "receita": 34947989000.0, "pct": 0.5937423180486866, "itcmd_bi": 0.207501}, {"estado": "Tocantins", "uf": "TO", "itcmd": 105545182.31, "receita": 8812725092.17, "pct": 1.1976452369287638, "itcmd_bi": 0.10554518231}, {"estado": "Maranhão", "uf": "MA", "itcmd": 99256893.01, "receita": 19446546553.2, "pct": 0.510408841685399, "itcmd_bi": 0.09925689301}, {"estado": "Alagoas", "uf": "AL", "itcmd": 72545891.56, "receita": 11316428186.66, "pct": 0.6410670430933176, "itcmd_bi": 0.07254589156}, {"estado": "Paraíba", "uf": "PB", "itcmd": 70577000.0, "receita": 13553783000.0, "pct": 0.5207180902925773, "itcmd_bi": 0.070577}, {"estado": "Sergipe", "uf": "SE", "itcmd": 70425210.54, "receita": 8351922713.08, "pct": 0.8432215306507402, "itcmd_bi": 0.07042521054}, {"estado": "Pará", "uf": "PA", "itcmd": 68181056.0, "receita": 22455174105.0, "pct": 0.303631829711881, "itcmd_bi": 0.068181056}, {"estado": "Rio Grande do Norte", "uf": "RN", "itcmd": 46086165.55, "receita": 12637462691.37, "pct": 0.3646789444646336, "itcmd_bi": 0.046086165549999995}, {"estado": "Rondônia", "uf": "RO", "itcmd": 45702757.11, "receita": 10181237794.55, "pct": 0.4488919523563688, "itcmd_bi": 0.04570275711}, {"estado": "Amazonas", "uf": "AM", "itcmd": 45519482.26, "receita": 17337861555.87, "pct": 0.26254380976175623, "itcmd_bi": 0.04551948226}, {"estado": "Piauí", "uf": "PI", "itcmd": 40099024.09, "receita": 10872710839.04, "pct": 0.3688042907019913, "itcmd_bi": 0.040099024090000004}, {"estado": "Acre", "uf": "AC", "itcmd": 9550865.61, "receita": 3356381239.02, "pct": 0.2845584255735106, "itcmd_bi": 0.009550865609999999}, {"estado": "Amapá", "uf": "AP", "itcmd": 3675193.0, "receita": 2744593891.0, "pct": 0.13390662320030647, "itcmd_bi": 0.003675193}];
+const svg=document.getElementById('g'), tip=document.getElementById('tip');
+const W=1500,H=760,m={top:55,right:95,bottom:90,left:90},iw=W-m.left-m.right,ih=H-m.top-m.bottom;
+const maxA=Math.ceil(Math.max(...data.map(d=>d.itcmd_bi))*1.15*2)/2;
+const maxP=Math.ceil(Math.max(...data.map(d=>d.pct))*1.15*2)/2;
+const step=iw/data.length,bw=Math.min(34,step*.62);
+const x=i=>m.left+step*i+step/2, yA=v=>m.top+ih-(v/maxA)*ih, yP=v=>m.top+ih-(v/maxP)*ih;
+function E(n,a={},t=''){let e=document.createElementNS('http://www.w3.org/2000/svg',n);for(const[k,v]of Object.entries(a))e.setAttribute(k,v);if(t)e.textContent=t;svg.appendChild(e);return e}
+const brl=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(v);
+const pct=v=>new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}).format(v)+'%';
+const bi=v=>new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}).format(v);
+function show(ev,d){tip.innerHTML=`<strong>${d.estado} (${d.uf})</strong>ITCMD/ITCD: <b>${brl(d.itcmd)}</b><br>Receita tributária: ${brl(d.receita)}<br>Participação: <b>${pct(d.pct)}</b>`;tip.style.left=ev.clientX+'px';tip.style.top=ev.clientY+'px';tip.style.opacity=1}
+function hide(){tip.style.opacity=0}
+E('rect',{x:0,y:0,width:W,height:H,fill:'#fff'});
+for(let t=0;t<=5;t++){let va=maxA*t/5,y=yA(va);E('line',{x1:m.left,y1:y,x2:W-m.right,y2:y,stroke:'#e5e7eb'});E('text',{x:m.left-12,y:y+4,'text-anchor':'end',fill:'#6b7280','font-size':12},new Intl.NumberFormat('pt-BR',{maximumFractionDigits:1}).format(va));let vp=maxP*t/5;E('text',{x:W-m.right+12,y:yP(vp)+4,fill:'#6b7280','font-size':12},new Intl.NumberFormat('pt-BR',{maximumFractionDigits:1}).format(vp)+'%')}
+E('text',{x:24,y:m.top+ih/2,transform:`rotate(-90 24 ${m.top+ih/2})`,'text-anchor':'middle',fill:'#374151','font-size':14},'ITCMD/ITCD arrecadado (R$ bilhões)');
+E('text',{x:W-18,y:m.top+ih/2,transform:`rotate(90 ${W-18} ${m.top+ih/2})`,'text-anchor':'middle',fill:'#374151','font-size':14},'ITCMD/ITCD como % da receita tributária');
+data.forEach((d,i)=>{let cx=x(i),y=yA(d.itcmd_bi),h=m.top+ih-y;let r=E('rect',{x:cx-bw/2,y,width:bw,height:h,rx:3,fill:'#5b6f82',cursor:'pointer'});r.onmousemove=e=>show(e,d);r.onmouseleave=hide;r.onmouseenter=()=>r.setAttribute('fill','#354a5f');r.addEventListener('mouseleave',()=>r.setAttribute('fill','#5b6f82'));if(d.itcmd_bi>=.7)E('text',{x:cx,y:y-8,'text-anchor':'middle',fill:'#374151','font-size':11,'font-weight':600},bi(d.itcmd_bi));E('text',{x:cx,y:H-m.bottom+28,'text-anchor':'middle',fill:'#374151','font-size':12},d.uf)});
+const pts=data.map((d,i)=>[x(i),yP(d.pct)]);
+E('path',{d:pts.map((p,i)=>(i?'L':'M')+p[0]+' '+p[1]).join(' '),fill:'none',stroke:'#b45309','stroke-width':3,'stroke-linejoin':'round','stroke-linecap':'round'});
+data.forEach((d,i)=>{let c=E('circle',{cx:x(i),cy:yP(d.pct),r:5,fill:'#92400e',stroke:'#fff','stroke-width':2,cursor:'pointer'});c.onmousemove=e=>show(e,d);c.onmouseleave=hide});
+E('line',{x1:m.left,y1:m.top+ih,x2:W-m.right,y2:m.top+ih,stroke:'#9ca3af'});
+</script>
+</body>
+</html>
